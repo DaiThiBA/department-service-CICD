@@ -1,0 +1,16 @@
+eureka:
+  client:
+    enabled: false
+
+spring:
+  application:
+    name: department-service
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/microservice?createDatabaseIfNotExist=true&characterEncoding=UTF-8&serverTimeZone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+server:
+  port: ${APP_PORT:8082}
+
