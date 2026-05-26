@@ -96,11 +96,16 @@ jobs:
             --from-literal=DB_PASSWORD="$env:DB_PASSWORD" `
             --dry-run=client -o yaml | kubectl apply -f -
 
+
       - name: Render Kubernetes manifests
-        shell: bash
+        shell: powershell
         run: |
-          envsubst < k8s/deployment.yaml > k8s/deployment-rendered.yaml
-          envsubst < k8s/service.yaml > k8s/service-rendered.yaml
+          (Get-Content k8s/deployment.yaml) -replace '\$\{IMAGE_NAME\}', "$env:IMAGE_NAME"
+          -replace '${IMAGE_TAG}', "$env" `
+          | Set-Content k8s/deployment-rendered.yaml
+          
+          (Get-Content k8s/service.yaml) `
+          | Set-Content k8s/service-rendered.yaml
 
       - name: Deploy to Minikube
         run: |
